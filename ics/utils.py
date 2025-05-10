@@ -177,6 +177,11 @@ def timedelta_to_duration(dt: timedelta) -> str:
         if seconds:
             res += str(seconds) + 'S'
 
+    # Avoid the following error in Thunderbird during import:
+    # JavaScript Error: invalid duration value: Not enough duration components
+    if res == 'P':
+        res = 'P0S'
+
     if dt.total_seconds() >= 0:
         return res
     else:
